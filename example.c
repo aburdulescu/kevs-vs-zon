@@ -42,16 +42,12 @@ int main() {
   }
 
   KevsTable root = {};
-
+  KevsStr content = {.ptr = data, .len = data_len};
   char err_buf[8193] = {};
-  const KevsParams params = {
-      .file = kevs_str_from_cstr(file),
-      .content = {.ptr = data, .len = data_len},
-      .err_buf = err_buf,
-      .err_buf_len = sizeof(err_buf) - 1,
-  };
+  const KevsOpts opts = {};
 
-  KevsError err = kevs_parse(&root, params);
+  KevsError err =
+      kevs_parse(&root, content, err_buf, sizeof(err_buf) - 1, opts);
   if (err != NULL) {
     printf("error: failed to parse: %s\n", err);
     return 1;
